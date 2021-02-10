@@ -86,6 +86,22 @@ const data = [
     thirdParagraph: `Hodor hodor - hodor... Hodor hodor hodor hodor. Hodor. Hodor! Hodor hodor, hodor hodor hodor hodor hodor; hodor hodor? Hodor!
           Hodor hodor, HODOR hodor, hodor hodor?! Hodor! Hodor hodor, HODOR hodor, hodor hodor, hodor, hodor hodor. Hodor, hodor.
           Hodor. Hodor, hodor, hodor. Hodor hodor... Hodor hodor hodor?! Hodor, hodor... Hodor hodor HODOR hodor, hodor hodor. Hodor.`
+  },
+  {
+    title: 'Clint is cool!',
+    date: 'Feb 1st, 2021',
+    firstParagraph: `Hodor hodor HODOR! Hodor hodor - hodor, hodor. Hodor hodor... Hodor hodor hodor; hodor hodor. Hodor hodor hodor, hodor, hodor
+          hodor. Hodor, hodor. Hodor. Hodor, hodor - hodor... Hodor hodor hodor; hodor HODOR hodor, hodor hodor?! Hodor hodor, hodor.
+          Hodor hodor hodor hodor hodor! Hodor hodor - HODOR hodor, hodor hodor hodor hodor hodor; hodor hodor? `,
+
+    secondParagraph: `Hodor, hodor. Hodor. Hodor, hodor, hodor. Hodor hodor, hodor. Hodor hodor, hodor, hodor hodor. Hodor! Hodor hodor, hodor;
+          hodor hodor hodor? Hodor, hodor. Hodor. Hodor, hodor - HODOR hodor, hodor hodor hodor! Hodor, hodor. Hodor. Hodor, HODOR
+          hodor, hodor hodor, hodor, hodor hodor. Hodor hodor - hodor - hodor... Hodor hodor hodor hodor hodor hodor hodor?! Hodor
+          hodor - hodor hodor hodor. Hodor. Hodor hodor... Hodor hodor hodor hodor hodor? `,
+
+    thirdParagraph: `Hodor hodor - hodor... Hodor hodor hodor hodor. Hodor. Hodor! Hodor hodor, hodor hodor hodor hodor hodor; hodor hodor? Hodor!
+          Hodor hodor, HODOR hodor, hodor hodor?! Hodor! Hodor hodor, HODOR hodor, hodor hodor, hodor, hodor hodor. Hodor, hodor.
+          Hodor. Hodor, hodor, hodor. Hodor hodor... Hodor hodor hodor?! Hodor, hodor... Hodor hodor HODOR hodor, hodor hodor. Hodor.`
   }
 ];
 
@@ -94,13 +110,13 @@ const data = [
   Your component is a function that takes an article object as its only argument,
   and returns a DOM node looking like the one below:
 
-  <div class="article">
-    <h2>{title of the article}</h2>
-    <p class="date">{date of the article}</p>
+  <div class="article"> //article
+    <h2>{title of the article}</h2> //artTitle
+    <p class="date">{date of the article}</p> // artDate
 
-    {three separate paragraph elements}
+    {three separate paragraph elements} // artParagraphs
 
-    <span class="expandButton">+</span>
+    <span class="expandButton">+</span> //artExpand
   </div>
 
   Step 2: Still inside `articleMaker`, add an event listener to the span.expandButton.
@@ -114,3 +130,87 @@ const data = [
   Step 5: Try adding new article object to the data array. Make sure it is in the same format as the others.
   Refresh the page to see the new article.
 */
+// 
+
+// Article Constructor Function
+function CreateArticle (title, date, firstParagraph, secondParagraph, thirdParagraph) {
+  this.title = title;
+  this.date = date;
+  this.firstParagraph = firstParagraph;
+  this.secondParagraph = secondParagraph;
+  this.thirdParagraph = thirdParagraph;
+}
+
+function postNewArticle (title, date, firstParagraph, secondParagraph, thirdParagraph) {
+  data.unshift(new CreateArticle(title, date, firstParagraph, secondParagraph, thirdParagraph));
+}
+
+postNewArticle('New Article', 'Feb 10, 2021', 'first paragraph', 'second paragraph', 'third paragraph');
+
+function articleMaker( {title, date, firstParagraph, secondParagraph, thirdParagraph} ) {
+  const article = document.createElement('div');
+  const artTitle = document.createElement('h2');
+  const artDate = document.createElement('p');
+  const artParagraphOne = document.createElement('p');
+  const artParagraphTwo = document.createElement('p');
+  const artParagraphThree = document.createElement('p');
+  const removeArticle = document.createElement('h4')
+  const artExpand = document.createElement('span');
+  
+  //Component Structure
+  article.appendChild(artTitle);
+  article.appendChild(artDate);
+  article.appendChild(artParagraphOne);
+  article.appendChild(artParagraphTwo);
+  article.appendChild(artParagraphThree);
+  article.appendChild(removeArticle);
+  article.appendChild(artExpand);
+
+  // Add Classes
+  article.classList.add('article');
+  artDate.classList.add('date');
+  artExpand.classList.add('expandButton');
+  removeArticle.classList.add('remove-article')
+
+  // Set Content to appropriate elements
+  artTitle.textContent = title;
+  artDate.textContent = date;
+  artExpand.textContent = 'Click To Expand';
+  artParagraphOne.textContent = firstParagraph;
+  artParagraphTwo.textContent = secondParagraph;
+  artParagraphThree.textContent = thirdParagraph;
+  removeArticle.textContent = '❌ Remove Article'
+
+
+  // Event Listener for Expand Button
+  artExpand.addEventListener('click', event => {
+    article.classList.toggle('article-open');
+    if (artExpand.textContent === 'Click To Expand'){
+      artExpand.textContent = 'Click To Close';
+    }
+    if (!article.classList.contains('article-open')) {
+      artExpand.textContent = 'Click To Expand';
+    }
+  })
+
+  // Event Listener for remove article
+  removeArticle.addEventListener('click', event => {
+    event.currentTarget.parentNode.remove();
+  })
+
+  return article; 
+}
+
+// Append articles to div.articles
+const articlesDiv = document.querySelector('.articles');
+const articleElements = data.map(indvArt => {
+  const article = articleMaker(indvArt);
+  console.log(article);
+  return article;
+})
+
+articleElements.forEach(article => {
+  articlesDiv.appendChild(article);
+})
+
+
