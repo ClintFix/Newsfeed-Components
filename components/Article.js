@@ -138,6 +138,7 @@ function articleMaker( {title, date, firstParagraph, secondParagraph, thirdParag
   const artParagraphOne = document.createElement('p');
   const artParagraphTwo = document.createElement('p');
   const artParagraphThree = document.createElement('p');
+  const removeArticle = document.createElement('h4')
   const artExpand = document.createElement('span');
   
   //Component Structure
@@ -146,12 +147,14 @@ function articleMaker( {title, date, firstParagraph, secondParagraph, thirdParag
   article.appendChild(artParagraphOne);
   article.appendChild(artParagraphTwo);
   article.appendChild(artParagraphThree);
+  article.appendChild(removeArticle);
   article.appendChild(artExpand);
 
   // Add Classes
   article.classList.add('article');
   artDate.classList.add('date');
   artExpand.classList.add('expandButton');
+  removeArticle.classList.add('remove-article')
 
   // Set Content to appropriate elements
   artTitle.textContent = title;
@@ -160,6 +163,8 @@ function articleMaker( {title, date, firstParagraph, secondParagraph, thirdParag
   artParagraphOne.textContent = firstParagraph;
   artParagraphTwo.textContent = secondParagraph;
   artParagraphThree.textContent = thirdParagraph;
+  removeArticle.textContent = '❌ Remove Article'
+
 
   // Event Listener for Expand Button
   artExpand.addEventListener('click', event => {
@@ -170,6 +175,11 @@ function articleMaker( {title, date, firstParagraph, secondParagraph, thirdParag
     if (!article.classList.contains('article-open')) {
       artExpand.textContent = 'Click To Expand';
     }
+  })
+
+  // Event Listener for remove article
+  removeArticle.addEventListener('click', event => {
+    event.currentTarget.parentNode.remove();
   })
 
   return article; 
@@ -186,3 +196,4 @@ const articleElements = data.map(indvArt => {
 articleElements.forEach(article => {
   articlesDiv.appendChild(article);
 })
+
