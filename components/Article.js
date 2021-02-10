@@ -131,6 +131,22 @@ const data = [
   Refresh the page to see the new article.
 */
 // 
+
+// Article Constructor Function
+function CreateArticle (title, date, firstParagraph, secondParagraph, thirdParagraph) {
+  this.title = title;
+  this.date = date;
+  this.firstParagraph = firstParagraph;
+  this.secondParagraph = secondParagraph;
+  this.thirdParagraph = thirdParagraph;
+}
+
+function postNewArticle (title, date, firstParagraph, secondParagraph, thirdParagraph) {
+  data.unshift(new CreateArticle(title, date, firstParagraph, secondParagraph, thirdParagraph));
+}
+
+postNewArticle('New Article', 'Feb 10, 2021', 'first paragraph', 'second paragraph', 'third paragraph');
+
 function articleMaker( {title, date, firstParagraph, secondParagraph, thirdParagraph} ) {
   const article = document.createElement('div');
   const artTitle = document.createElement('h2');
@@ -196,4 +212,5 @@ const articleElements = data.map(indvArt => {
 articleElements.forEach(article => {
   articlesDiv.appendChild(article);
 })
+
 
