@@ -156,7 +156,7 @@ function articleMaker( {title, date, firstParagraph, secondParagraph, thirdParag
   // Set Content to appropriate elements
   artTitle.textContent = title;
   artDate.textContent = date;
-  artExpand.textContent = '+';
+  artExpand.textContent = 'Click To Expand';
   artParagraphOne.textContent = firstParagraph;
   artParagraphTwo.textContent = secondParagraph;
   artParagraphThree.textContent = thirdParagraph;
@@ -164,6 +164,12 @@ function articleMaker( {title, date, firstParagraph, secondParagraph, thirdParag
   // Event Listener for Expand Button
   artExpand.addEventListener('click', event => {
     article.classList.toggle('article-open');
+    if (artExpand.textContent === 'Click To Expand'){
+      artExpand.textContent = 'Click To Close';
+    }
+    if (!article.classList.contains('article-open')) {
+      artExpand.textContent = 'Click To Expand';
+    }
   })
 
   return article; 
